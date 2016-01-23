@@ -1,0 +1,441 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name: HB Communications Inc.
+System Name:
+System Number:
+Programmer: SJM
+Comments: Hacked Crestron Mod
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+  (Uncomment and declare compiler directives as needed)
+*******************************************************************************************/
+#SYMBOL_NAME "Biamp Audia Flex Dialer Simpl v2-HB"
+// #HINT ""
+// #DEFAULT_VOLATILE
+#DEFAULT_NONVOLATILE
+
+#HELP_BEGIN
+Only to be used in conjunction with the Biamp Audia Flex Dialer Module (2-SERIES ONLY)
+#HELP_END
+
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+  (Uncomment and declare inputs and outputs as needed)
+*******************************************************************************************/
+DIGITAL_INPUT  On_Hook, Off_Hook, On_Hook_FB, Off_Hook_FB, key0, key1, key2, key3, key4, key5, key6, key7, key8, key9, key_star, key_pound, Clear, Back, Dial, Redial;
+STRING_INPUT   Header$[50], Address$[5], Instance$[5];
+ANALOG_INPUT   MaxCharacters;
+STRING_OUTPUT  Phone_Number$, To_Device$;
+INTEGER        iMaxChars, i, iPreset, Semaphore, ETX, STX, iA, iB, iC, iW, iX, iY, iHook;
+STRING         TempDial$[100], sHeader[50], Last_Num_Dialed$[50],
+               A$[5], B$[5], W$[5], X$[5], Y$[5];
+
+/*******************************************************************************************
+  Event Handlers
+  (Uncomment and declare additional event handlers as needed)
+*******************************************************************************************/
+PUSH Off_Hook
+	{
+	Makestring(To_Device$, "SET %s TIHOOKSTATE %s 0\x0A", Address$, Instance$);
+	}
+
+PUSH On_Hook
+	{
+	Makestring(To_Device$, "SET %s TIHOOKSTATE %s 1\x0A", Address$, Instance$);
+	ClearBuffer(TempDial$);
+	Phone_number$ = "";
+	}
+
+PUSH Dial
+	{
+	if((len(TempDial$) > 0) && (On_Hook_FB = 1))
+		{
+		makestring(to_device$, "%s%s\x0A", sHeader, TempDial$);
+		Last_Num_Dialed$ = TempDial$;
+		}
+	}
+	
+PUSH ReDial
+	{
+	if (len(Last_Num_Dialed$) > 0)
+		{
+		makestring(to_device$, "%s%s\x0A", sHeader, Last_Num_Dialed$);
+		Phone_Number$ = Last_Num_Dialed$;
+		}
+	}
+
+CHANGE Header$
+	{
+	sHeader = header$;
+	}
+
+PUSH key0
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "0";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s0\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "0";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s0\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "0";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "0";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key1
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "1";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s1\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "1";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s1\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "1";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "1";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key2
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "2";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s2\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "2";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s2\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "2";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "2";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key3
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "3";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s3\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "3";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s3\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "3";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "3";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key4
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "4";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s4\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "4";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s4\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "4";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "4";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key5
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "5";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s5\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "5";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s5\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "5";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "5";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key6
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "6";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s6\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "6";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s6\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "6";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "6";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key7
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "7";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s7\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "7";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s7\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "7";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "7";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key8
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "8";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s8\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "8";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s8\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "8";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "8";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key9
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "9";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s9\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "9";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s9\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "9";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "9";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key_star
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "*";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s*\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "*";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s*\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "*";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "*";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH key_pound
+	{     
+		if ((On_Hook_FB = 0) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "#";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s#\x0A", sHeader);
+		}
+		if ((On_Hook_FB = 0) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "#";
+	 		Phone_Number$ = TempDial$;
+			makestring(To_Device$,  "%s#\x0A", sHeader);
+		}     
+		if ((On_Hook_FB = 1) && (len(TempDial$) < MaxCharacters))
+		{
+        	TempDial$ = TempDial$ + "#";
+	 		Phone_Number$ = TempDial$;
+		}
+		if ((On_Hook_FB = 1) && (len(TempDial$) >= MaxCharacters))
+		{
+			TempDial$ = right(TempDial$, MaxCharacters - 1);
+        	TempDial$ = TempDial$ + "#";
+	 		Phone_Number$ = TempDial$;
+		}
+	}
+
+PUSH Clear
+	{
+	ClearBuffer(TempDial$);
+	Phone_number$ = "";
+	}
+    
+PUSH Back
+	{
+	if(len(TempDial$) > 0)
+		{
+		TempDial$ = left(TempDial$, len(TempDial$) - 1);
+		Phone_Number$ = TempDial$;
+
+		}
+	}
+/*******************************************************************************************
+  Main()
+  Uncomment and place one-time startup code here
+  (This code will get called when the system starts up)
+*******************************************************************************************/
+
+Function Main()
+	{
+	Phone_Number$ = "";
+	TempDial$ = "";
+	}
+
+

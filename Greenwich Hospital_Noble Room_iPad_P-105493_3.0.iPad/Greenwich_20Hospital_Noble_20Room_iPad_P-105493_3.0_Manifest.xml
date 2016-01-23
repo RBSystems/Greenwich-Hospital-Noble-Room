@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<File Type='Manifest' Version='5.1.0' ObjectDisplayList='1'>
+<Project FileName='Greenwich_20Hospital_Noble_20Room_iPad_P-105493_3.0.zip' Size='142604' Build='20150328154202'>
+<Sources>
+<Source FileName='Greenwich_20Hospital_Noble_20Room_iPad_P-105493_3.0.xml' Size='556' Type='Application' Build='20150328154202' />
+<Source FileName='Greenwich_20Hospital_Noble_20Room_iPad_P-105493_3.0_Resource.xml' Size='7576' Type='Resource' Build='20150328154202' />
+<Source FileName='{PRES} satellite.xml' Size='14094' Type='Subpage' Build='20150328154219' />
+<Source FileName='{PRES} cable.xml' Size='16754' Type='Subpage' Build='20150328154216' />
+<Source FileName='[SYS] VOL.xml' Size='24580' Type='Page' Build='20150328154216' />
+<Source FileName='[SYS] READY.xml' Size='7426' Type='Page' Build='20150328154213' />
+<Source FileName='[SYS] EXIT.xml' Size='3415' Type='Page' Build='20150328154212' />
+<Source FileName='{PRES} bluray.xml' Size='14098' Type='Subpage' Build='20150328154212' />
+<Source FileName='{PRES} no controls.xml' Size='2122' Type='Subpage' Build='20150328154210' />
+<Source FileName='{SYS} PROJ COOLING.xml' Size='1662' Type='Subpage' Build='20150328154210' />
+<Source FileName='{SYS} PROJ WARMING.xml' Size='1662' Type='Subpage' Build='20150328154209' />
+<Source FileName='{ATC} INCOMING CALL.xml' Size='2535' Type='Subpage' Build='20150328154209' />
+<Source FileName='[PRES].xml' Size='20660' Type='Page' Build='20150328154209' />
+<Source FileName='[VTC] NAV.xml' Size='33118' Type='Page' Build='20150328154205' />
+<Source FileName='[VTC] SEND.xml' Size='24572' Type='Page' Build='20150328154202' />
+<Source FileName='[VTC] DIAL.xml' Size='36658' Type='Page' Build='20150328154298' />
+<Source FileName='[VTC] CAM.xml' Size='31440' Type='Page' Build='20150328154295' />
+<Source FileName='[ATC].xml' Size='29693' Type='Page' Build='20150328154290' />
+<Source FileName='[LOGO].xml' Size='2522' Type='Page' Build='20150328154284' />
+</Sources>
+</Project>
+</File>

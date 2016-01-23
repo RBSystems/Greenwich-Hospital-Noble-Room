@@ -1,0 +1,25 @@
+[Entries]
+Room1 Pro2=tcp 192.168.1.151
+Room1 DM8x8=tcp 192.168.1.10
+Room2 DM8x2=tcp 192.168.1.154
+Room2 MC2E=tcp 192.168.1.152
+Room3 DM8x2=tcp 192.168.1.155
+Room3 MC2E=tcp 192.168.1.153
+Room1 TPS5000=Room1 Pro2:cresnet 03
+Room2 TPS2000=Room1 Pro2:cresnet 04
+Room3 TPS2000=Room1 Pro2:cresnet 05
+
+[Settings]
+DefaultEntry=
+
+[Comments]
+Room1 Pro2=
+Room1 DM8x8=
+Room2 DM8x2=
+Room2 MC2E=
+Room3 DM8x2=
+Room3 MC2E=
+Room1 TPS5000=
+Room2 TPS2000=
+Room3 TPS2000=
+
